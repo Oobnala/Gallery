@@ -1,0 +1,38 @@
+.gallery-list {
+  margin-top: 5rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+}
+
+.gallery-card {
+  position: relative;
+  height: 35rem;
+  width: 30%;
+  min-width: 30rem;
+  margin: 3rem 1rem;
+
+  &__img {
+  }
+
+  &__img:hover {
+    background-color: black;
+  }
+
+  &__overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    opacity: 0;
+    transition: 0.3s ease;
+    background-color: $color-black;
+  }
+
+  &:hover &__overlay {
+    opacity: 0.5;
+    cursor: pointer;
+  }
+}
