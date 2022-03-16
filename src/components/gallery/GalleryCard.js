@@ -10,7 +10,7 @@ const GalleryCard = ({ image, overlayHandler }) => {
       <img
         className="gallery-card__img"
         style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-        src={image.urls.full}
+        src={image.urls.regular}
         alt=""
       />
       <div className="gallery-card__overlay"></div>

@@ -1,16 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-const Search = (props) => {
-  const [searchValue, setSearchTerm] = useState('');
-
+const Search = ({ search, setSearchTerm, searchVal }) => {
   return (
     <div className="search">
       <input
         className="search__input"
         placeholder="Search image..."
         onChange={(e) => setSearchTerm(e.target.value)}
+        value={searchVal}
       />
-      <button className="search__btn" onClick={() => props.search(searchValue)}>
+      <button className="search__btn" onClick={() => search()}>
         Search
       </button>
     </div>
