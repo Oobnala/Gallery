@@ -73,7 +73,7 @@ My approach for implementing the spell checker was to use pattern matching and r
 2. Create an array that will hold all valid words.
 3. Replace all vowels in the search value with an asterisk.
 
-- Example: 'ceku' -> 'c*k*'
+- Example: 'ceku' -> 'c\*k\*'
 
 4. Filter through the dictionary of words that matches the length of the search value.
 5. Loop through the filtered dictionary words, and similarly replace all vowels with an asterisk. If the dictonary words matches the same pattern as the search value, add it to the valid words array.
