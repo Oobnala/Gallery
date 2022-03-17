@@ -2,11 +2,6 @@ import React, { useState } from 'react';
 import server from '../../api/server';
 import { spellChecker } from './spellchecker';
 
-/* 
-  Search is a component that includes the search input field and search button.
-  Before the get request is sent to Unsplash to retrieve images, the search value
-  will run through the spell check first and will be corrected if necessary.
-*/
 const Search = ({ setImages, setInitialRender, setError, setLoading }) => {
   const [searchVal, setSearchTerm] = useState('');
   const [inputError, setInputError] = useState(false);
@@ -32,19 +27,20 @@ const Search = ({ setImages, setInitialRender, setError, setLoading }) => {
       setSearchTerm(correctedWord);
       setLoading(true);
 
-      // send request for images
-      await server
-        .get(`photos?query=${correctedWord}`)
-        .then((res) => {
-          setInitialRender(false);
-          setImages(res.data.results);
-          setLoading(false);
-        })
-        .catch((err) => {
-          console.log(err);
-          setLoading(false);
-          setError(true);
-        });
+      // Send a get request with the correctWord value
+      try {
+        const response = await server.get(`photos?query=${correctedWord}`);
+        const imageResults = response.data.results;
+
+        setInitialRender(false);
+        setLoading(false);
+        // If successful, store the image data with the setImages prop
+        setImages(imageResults);
+      } catch (err) {
+        // Display error message if a server error occured
+        setLoading(false);
+        setError(true);
+      }
     }
   };
 

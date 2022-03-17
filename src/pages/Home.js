@@ -8,7 +8,7 @@ import LoadingSpinnner from '../components/loading/LoadingSpinner';
 const Home = () => {
   const [initialRender, setInitialRender] = useState(true);
   const [images, setImages] = useState([]);
-  const [error, setError] = useState('');
+  const [error, setError] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [showOverlay, setShowOverlay] = useState({
     show: false,
@@ -40,7 +40,6 @@ const Home = () => {
           initialRender={initialRender}
           images={images}
           overlayHandler={overlayHandler}
-          error={error}
         />
       )}
 
