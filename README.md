@@ -2,10 +2,11 @@
 
 ## Installation
 
-In order to use the app, you will need your own Client ID key from Unsplash and add it to the project.
+In order to use the app, you will need your own access key from Unsplash and add it to the project.
 
 ```
 git clone https://github.com/Oobnala/Gallery.git
+cd Gallery
 npm install
 npm start
 ```
@@ -50,7 +51,7 @@ Home is the parent component for the overlay, search, and gallery components.
 
 ### Search Component
 
-The Search Component has an input field and a search button for users to search for images from Unsplash. I decided to use Axios to make requests.
+The Search Component has an input field and a search button for users to search for images from Unsplash.
 
 - Local state
 
