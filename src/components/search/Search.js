@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import server from '../../api/server';
 import { spellChecker } from './spellchecker';
+
+// Unsplash search url
+const url = 'https://api.unsplash.com/search';
 
 const Search = ({ setImages, setInitialRender, setError, setLoading }) => {
   const [searchVal, setSearchTerm] = useState('');
   const [inputError, setInputError] = useState(false);
 
-  const searchHandler = async () => {
+  const searchHandler = () => {
     // set searchVal to lowercase and remove all characters that are not a-z
     let formattedWord = searchVal.toLowerCase().replace(/[^a-z]/g, '');
 
@@ -28,19 +30,33 @@ const Search = ({ setImages, setInitialRender, setError, setLoading }) => {
       setLoading(true);
 
       // Send a get request with the correctWord value
-      try {
-        const response = await server.get(`photos?query=${correctedWord}`);
-        const imageResults = response.data.results;
+      fetch(`${url}/photos?query=${correctedWord}`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Client-ID ${process.env.REACT_APP_CLIENT_ID}`,
+          'Content-Type': 'application/json',
+        },
+      })
+        .then((res) => {
+          // Display error message if a server error occured
+          if (!res.ok) {
+            setLoading(false);
+            setError(true);
+          } else {
+            return res.json();
+          }
+        })
+        .then((data) => {
+          const imageResults = data.results;
 
-        setInitialRender(false);
-        setLoading(false);
-        // If successful, store the image data with the setImages prop
-        setImages(imageResults);
-      } catch (err) {
-        // Display error message if a server error occured
-        setLoading(false);
-        setError(true);
-      }
+          setInitialRender(false);
+          setLoading(false);
+          // If successful, store the image data with the setImages prop
+          setImages(imageResults);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   };
 

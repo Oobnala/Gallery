@@ -25,7 +25,6 @@ npm start
 - Flexbox
 - Desktop-first workflow
 - Unsplash API
-- Axios
 
 ### Resources
 
@@ -41,7 +40,7 @@ Home is the parent component for the overlay, search, and gallery components.
 
   - initialRender: Initially set to true, but switched to false after the first search.
   - images: The images received by a successful get request in Search component.
-  - error: Used to determine if there is a server error from the get request.
+  - error: Used to determine if there is a server error from the fetch request.
   - isLoading: Initially set to false, but it is triggered when a search is being made. When the request completes, it is reset to false. This state is for the LoadingSpinner component.
   - showOverlay: An object state that has a "show" property to trigger the overlay image and an "imgURL" property to display the selected image source.
 
@@ -68,7 +67,7 @@ The Search Component has an input field and a search button for users to search 
     - Utilizes the the spell checker function.
     - If the spell checker returns undefined, sets the corrected word to the original search value.
       - Example: "playstation" is a valid search term, but will return as undefined from the spell checker.
-    - Sends a get request to retrieve images from Unsplash and set the images state in the Home component.
+    - Sends a fetch request to retrieve images from Unsplash and set the images state in the Home component.
 
   - errorMessage()
     - Returns an error message for when a string is empty or invalid.
