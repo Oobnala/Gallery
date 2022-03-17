@@ -6,8 +6,18 @@
   right: 0;
   z-index: 2;
   background-color: rgb(0, 0, 0, 0.3);
-  img {
-    width: 40%;
+
+  &__img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    object-fit: contain;
+    height: 90%;
+    width: 90%;
+  }
+
+  &__spinner {
     position: absolute;
     top: 50%;
     left: 50%;

@@ -1,78 +1,53 @@
 import React, { useState } from 'react';
-import server from '../api/server';
-import words from '../assets/words.json';
-
 import Search from '../components/search/Search';
 import GalleryList from '../components/gallery/GalleryList';
 import Overlay from '../components/overlay/Overlay';
+import ErrorMessage from '../components/error/ErrorMessage';
+import LoadingSpinnner from '../components/loading/LoadingSpinner';
 
 const Home = () => {
-  const [searchVal, setSearchTerm] = useState('');
+  const [initialRender, setInitialRender] = useState(true);
   const [images, setImages] = useState([]);
-  const [showOverlay, setShowOverlay] = useState({ show: false, imgUrl: '' });
+  const [error, setError] = useState('');
+  const [isLoading, setLoading] = useState(false);
+  const [showOverlay, setShowOverlay] = useState({
+    show: false,
+    imgUrl: '',
+  });
 
-  const searchHandler = async () => {
-    let formattedWord = searchVal.toLowerCase().replace(/[^a-z]/g, '');
-    let correctedWord = spellChecker(formattedWord);
-
-    console.log(searchVal);
-    console.log(correctedWord);
-
-    if (!correctedWord) {
-      correctedWord = searchVal;
-    }
-
-    setSearchTerm(correctedWord);
-    await server
-      .get(`photos?query=${correctedWord}`)
-      .then((res) => {
-        console.log(res.data.results);
-        setImages(res.data.results);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const spellChecker = (searchVal) => {
-    if (words.hasOwnProperty(searchVal)) {
-      return searchVal;
-    }
-
-    let result = [];
-    let firstChar = searchVal[0];
-    let noVowelsSearch = searchVal.replace(/[aeiou]/g, '*');
-
-    let res = Object.keys(words).filter(
-      (v) => v.length === searchVal.length && v.startsWith(firstChar)
-    );
-
-    for (let word of res) {
-      let noVowelsWord = word.replace(/[aeiou]/g, '*');
-
-      if (noVowelsSearch === noVowelsWord) {
-        result.push(word);
-      }
-    }
-
-    return result[0];
-  };
-
+  // Used to trigger image overlay with imgUrl
   const overlayHandler = (overlayObject) => {
     setShowOverlay(overlayObject);
   };
 
   return (
     <div className="home">
+      {/* Overlay will show when a gallery card is clicked */}
       {showOverlay.show && (
         <Overlay imgUrl={showOverlay.imgUrl} overlayHandler={overlayHandler} />
       )}
       <Search
-        search={searchHandler}
-        setSearchTerm={setSearchTerm}
-        searchVal={searchVal}
+        setImages={setImages}
+        setInitialRender={setInitialRender}
+        setError={setError}
+        setLoading={setLoading}
       />
-      <GalleryList images={images} overlayHandler={overlayHandler} />
+      <LoadingSpinnner isLoading={isLoading} />
+
+      {/* Only display the Gallery if there are no errors and loading is finished */}
+      {!error && !isLoading && (
+        <GalleryList
+          initialRender={initialRender}
+          images={images}
+          overlayHandler={overlayHandler}
+          error={error}
+        />
+      )}
+
+      {/* Display an error message if a server error occured */}
+      {error && !isLoading && (
+        <ErrorMessage message="A server error has occcured." />
+      )}
     </div>
   );
 };
