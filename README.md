@@ -15,7 +15,7 @@ npm start
 
 - Live Site URL: [Gallery Prototype](https://gallery-prototype-d8dd39.netlify.app/)
 
-## My Design Processs
+## My Design Process
 
 ### Built With
 
